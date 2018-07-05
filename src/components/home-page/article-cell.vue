@@ -29,8 +29,9 @@
 </script>
 <style lang="less">
     .cell-container {
+        min-width: 1024px;
         height: 163px;
-        margin: 0 110px;
+        margin: 0 100px;
         border-bottom: 1px solid #D8D8D8;
         display: flex;
         align-items: center;

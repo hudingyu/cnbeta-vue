@@ -4,7 +4,7 @@
         <div class="source" v-html="info.source"></div>
         <div class="editor">{{info.author}}</div>
         <div class="time">{{info.pubTime}}</div>
-        <hr class="hairline" />
+        <div class="hairline"></div>
         <summary v-html="info.summary"></summary>
         <div class="content" v-html="info.content"></div>
     </div>
@@ -49,6 +49,9 @@
     };
 </script>
 <style lang="less">
+    body {
+        font-size: 15px;
+    }
     .cnbeta-article-container {
         word-break: break-all;
         font-family: HelveticaNeue;
@@ -64,22 +67,41 @@
     h1 {
         margin-top: 5px;
         margin-bottom: 5px;
-    }gst
+        display: block;
+        font-size: 2em;
+        -webkit-margin-before: 0.67em;
+        -webkit-margin-after: 0.67em;
+        -webkit-margin-start: 0px;
+        -webkit-margin-end: 0px;
+        font-weight: bold;
+    }
     .source, .editor, .time {
         text-align: right;
         font-size: 12px;
     }
     hr {
-        border: none;
+        border-bottom: 1px solid #3264c8;
+        display: block;
+        unicode-bidi: isolate;
+        -webkit-margin-before: 0.5em;
+        -webkit-margin-after: 0.5em;
+        -webkit-margin-start: auto;
+        -webkit-margin-end: auto;
+        overflow: hidden;
+        visibility: visible;
     }
-    hr.hairline {
-        border-bottom: 0.5px rgb(50, 100, 200) solid;
+    .hairline {
+        border-bottom: 1px rgb(50, 100, 200) solid;
+        -webkit-margin-before: 0.5em;
+        -webkit-margin-after: 0.5em;
+        -webkit-margin-start: auto;
+        -webkit-margin-end: auto;
     }
     summary, .content {
         text-align: justify;
     }
     summary {
-        font-size: 12px;
+        font-size: 14px;
         padding: 2px 2px;
         background: #f0f0f0;
         border: 0.5px solid #e0e0e0;
@@ -91,5 +113,12 @@
     }
     a:link {
         color: rgb(50, 100, 200);
+    }
+    p {
+        display: block;
+        -webkit-margin-before: 1em;
+        -webkit-margin-after: 1em;
+        -webkit-margin-start: 0px;
+        -webkit-margin-end: 0px;
     }
 </style>

@@ -3,7 +3,7 @@
         <div class="article-list">
             <article-cell v-for="item in articleList" :info="item" :key="item.sid"></article-cell>
         </div>
-        <div class="pagination">
+        <div class="pagination" v-if="articleList.length">
             <pagination :givenPageCount='paginationInfo.total_page' :givenCurrentPage='Number(paginationInfo.current_page)' :didChangePage='didChangePage'></pagination>
         </div>
     </div>
@@ -65,6 +65,6 @@
         },
     };
 </script>
-<style lang="less" scoped>
+<style lang="less">
     @import '@dp/bee-ui/dist/styles/theme/ecom/index.css';
 </style>
