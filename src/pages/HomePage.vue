@@ -13,7 +13,7 @@
     import ArticleCell from '../components/home-page/article-cell.vue';
     import { Ajax } from '@/lib/utils';
     export default {
-        name: 'cnbeta-mainpage',
+        name: 'cnbeta-homepage',
         data() {
             return {
                 articleList: [],

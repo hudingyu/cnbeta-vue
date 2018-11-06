@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import HomePage from '../pages/HomePage.vue';
 import Article from '../pages/article.vue';
-import MainPage from '../pages/cnbeta-mainpage.vue';
+// import MainPage from '../pages/cnbeta-mainpage.vue';
 
 Vue.use(Router);
 
@@ -12,7 +12,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/mainpage',
+            redirect: '/homepage',
         }, {
             path: '/homepage',
             name: 'HomePage',
@@ -24,10 +24,6 @@ export default new Router({
             path: '/article/:sid',
             name: 'Article',
             component: Article,
-        }, {
-            path: '/mainpage',
-            name: 'MainPage',
-            component: MainPage,
         },
     ]
 });

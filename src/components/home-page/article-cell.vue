@@ -22,7 +22,7 @@
         },
         methods: {
             cellClicked() {
-                location.href = `/article/${this.info.sid}`;
+                this.$router.push(`/article/${this.info.sid}`);
             },
         },
     }
