@@ -11,7 +11,97 @@
 </template>
 <script>
     import { Ajax } from '@/lib/utils';
+    function handleVideos() {
+        var embeds = document.getElementsByTagName('embed');
+        for (var i = embeds.length - 1; i >= 0; i--) {
+            var embed = embeds[i];
+            var src = embed.src;
 
+            if (src.indexOf('youku.com') > -1) {
+                var m = src.match(/sid\/(\w+)/i);
+                if (m) {
+                    var id = m[1];
+                    var iframe = document.createElement('iframe');
+                    var m3u8 = 'http://player.youku.com/embed/' + id;
+                    iframe.src = m3u8;
+                    embed.parentNode.replaceChild(iframe, embed)
+                } else {
+                    var div = createVideoPlaceholder();
+                    embed.parentNode.replaceChild(div, embed)
+                }
+            } else if (src.indexOf('qq.com') > -1) {
+                var m = src.match(/vid=(\S*)&/i);
+                if (m) {
+                    var id = m[1];
+                    var iframe = document.createElement('iframe');
+                    var m3u8 = 'https://v.qq.com/iframe/player.html?vid=' + id + '&tiny=0&auto=0';
+                    iframe.src = m3u8;
+                    embed.parentNode.replaceChild(iframe, embed)
+                } else {
+                    var div = createVideoPlaceholder();
+                    embed.parentNode.replaceChild(div, embed)
+                }
+            } else if (src.indexOf('qiyi.com') > -1) {
+                var m = src.match(/com\/(\S*?)\/0/i);
+                var n = src.match(/tvId=(\S*?)-/i);
+                if (m) {
+                    var vid = m[1];
+                    var tvid = n[1];
+                    var iframe = document.createElement('iframe');
+                    var m3u8 = 'http://open.iqiyi.com/developer/player_js/coopPlayerIndex.html?vid=' + vid +'&tvId=' + tvid + '&accessToken=2.f22860a2479ad60d8da7697274de9346&appKey=3955c3425820435e86d0f4cdfe56f5e7&appId=1368&height=100%&width=100%';
+                    iframe.src = m3u8;
+                    embed.parentNode.replaceChild(iframe, embed)
+                } else {
+                    var div = createVideoPlaceholder();
+                    embed.parentNode.replaceChild(div, embed)
+                }
+            } else if (src.indexOf('letv.com') > -1){
+                var flashvars = embed.getAttribute("flashvars");
+                var m = flashvars.match(/uu=(\S*?)&/i);
+                var n = flashvars.match(/vu=(\S*?)&/i);
+                if (1) {
+                    var uu = m[1];
+                    var vu = n[1];
+                    var iframe = document.createElement('iframe');
+                    var m3u8 = 'http://yuntv.letv.com/bcloud.html?uu=' + uu + '&vu=' + vu + '&auto_play=0&width=320&height=240&lang=zh_CN';
+                    iframe.src = m3u8;
+                    embed.parentNode.replaceChild(iframe, embed)
+                }
+            } else {
+                var div = createVideoPlaceholder();
+                embed.parentNode.replaceChild(div, embed)
+            }
+        }
+
+        var iframes = document.getElementsByTagName('iframe');
+        for (var i = iframes.length - 1; i >= 0; i--) {
+            var embed = iframes[i];
+            var src = embed.src;
+            if (src) {
+                if (src.indexOf('qq.com') > -1) {
+                    var m = src.match(/vid=(\S*?)&/i)
+                    var id = m[1];
+                    var m3u8 = 'https://v.qq.com/iframe/player.html?vid=' + id + '&tiny=0&auto=0';
+                    src = m3u8;
+                }
+                var iframe = document.createElement('iframe');
+                iframe.src = src;
+                embed.parentNode.replaceChild(iframe, embed)
+            } else {
+                var div = createVideoPlaceholder();
+                embed.parentNode.replaceChild(div, embed)
+            }
+        }
+
+        function createVideoPlaceholder() {
+            var div = document.createElement('div');
+            div.class = 'videoPlaceholder';
+            var forbidden = document.createElement('div');
+            forbidden.class = 'videoForbidden';
+            div.appendChild(forbidden);
+            return div;
+        }
+    }
     export default {
         name: 'cnbeta-article',
         data() {
@@ -42,9 +132,11 @@
                     }
                 });
             },
+
         },
         mounted() {
             this.getArticleContent();
+            // handleVideos();
         },
     };
 </script>
@@ -120,5 +212,12 @@
         -webkit-margin-after: 1em;
         -webkit-margin-start: 0px;
         -webkit-margin-end: 0px;
+    }
+    div.videoPlaceholder {
+        margin: auto;
+        width: 480px;
+        height:240px;
+        background-color: black;
+        position: relative;
     }
 </style>
