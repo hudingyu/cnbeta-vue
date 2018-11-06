@@ -136,7 +136,7 @@
         },
         mounted() {
             this.getArticleContent();
-            // handleVideos();
+            handleVideos();
         },
     };
 </script>
