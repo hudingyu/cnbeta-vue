@@ -86,6 +86,7 @@
                 }
                 var iframe = document.createElement('iframe');
                 iframe.src = src;
+                iframe.frameborder = 0;
                 embed.parentNode.replaceChild(iframe, embed)
             } else {
                 var div = createVideoPlaceholder();
@@ -117,6 +118,7 @@
                     success: (res) => {
                         if (res.code.toString() === '200') {
                             this.info = res.result[0];
+                            this.$nextTick(handleVideos);
                         } else {
                             this.$toast({
                                 text: '请求出错',
@@ -136,31 +138,36 @@
         },
         mounted() {
             this.getArticleContent();
-            handleVideos();
         },
     };
 </script>
 <style lang="less">
-    body {
-        font-size: 15px;
-    }
+
     .cnbeta-article-container {
         word-break: break-all;
         font-family: HelveticaNeue;
-        padding:5px;
+        padding:5px 10px;
         margin: auto;
         max-width: 1280px;
     }
-    @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    @media only screen and (min-device-width : 640px) and (max-device-width : 1024px) {
+        html {
+            font-size: 78%;
+        }
         body {
             padding: 5px 70px;
+        }
+    }
+    @media screen and (max-device-width: 640px) {
+        html {
+            font-size: 2.666667vw;
         }
     }
     h1 {
         margin-top: 5px;
         margin-bottom: 5px;
         display: block;
-        font-size: 2em;
+        font-size: 1.8em;
         -webkit-margin-before: 0.67em;
         -webkit-margin-after: 0.67em;
         -webkit-margin-start: 0px;
@@ -190,10 +197,10 @@
         -webkit-margin-end: auto;
     }
     summary, .content {
+        font-size: 1.5rem;
         text-align: justify;
     }
     summary {
-        font-size: 14px;
         padding: 2px 2px;
         background: #f0f0f0;
         border: 0.5px solid #e0e0e0;
@@ -202,6 +209,9 @@
         max-width: 100%;
         display: block;
         margin: auto;
+    }
+    iframe {
+        border: none;
     }
     a:link {
         color: rgb(50, 100, 200);

@@ -3,10 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Refresh from './components/refresh';
 import VueJsonp from 'vue-jsonp'
 
-Vue.config.productionTip = false
-Vue.use(VueJsonp)
+Vue.config.productionTip = false;
+Vue.use(VueJsonp);
+
+Vue.prototype.$showRefresh = Refresh;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -1,20 +1,17 @@
 <template>
-    <div>
+    <div class="page-content">
         <div class="article-list">
-            <article-cell v-for="item in articleList" :info="item" :key="item.sid"></article-cell>
-        </div>
-        <div class="pagination" v-if="articleList.length">
-            <pagination :givenPageCount='paginationInfo.total_page' :givenCurrentPage='Number(paginationInfo.current_page)' :didChangePage='didChangePage'></pagination>
+            <phone-cell v-for="item in articleList" :info="item" :key="item.sid"></phone-cell>
         </div>
     </div>
 </template>
 <script>
-    import { Pagination } from '@dp/bee-ui';
-    import ArticleCell from '../components/home-page/article-cell.vue';
+    import * as _ from 'underscore';
+    import PhoneCell from '../components/home-page/phone-cell.vue';
     import Bus from '../lib/bus';
     import { Ajax } from '@/lib/utils';
     export default {
-        name: 'cnbeta-homepage',
+        name: 'Home',
         data() {
             return {
                 articleList: [],
@@ -28,8 +25,7 @@
             };
         },
         components: {
-            Pagination,
-            ArticleCell,
+            PhoneCell,
         },
         methods: {
             getArticleList(pn) {
@@ -41,7 +37,7 @@
                     success: (res) => {
                         this.refreshBtn.$stopLoading();
                         if (res.code.toString() === '200') {
-                            this.articleList = res.result.list;
+                            this.articleList = [...this.articleList, ...res.result.list];
                             this.paginationInfo = res.result.pagination;
                         } else {
                             this.$toast({
@@ -59,21 +55,30 @@
                     }
                 });
             },
-            didChangePage(pn) {
-                this.selectedPage = pn;
-                this.getArticleList();
-            },
         },
         mounted() {
+//            const fontSize = document.body.clientWidth >= 640 ? '75%' : `${8/3}vw`;
+//            document.querySelector('html').setAttribute('style', `font-size: ${fontSize}`);
+
             this.refreshBtn = this.$showRefresh();
             Bus.$on('onRefresh', () => {
-                console.log(document.documentElement.scrollTop);
                 document.documentElement.scrollTop = 0;
                 this.selectedPage = 1;
+                this.articleList = [];
                 this.getArticleList();
             });
             this.getArticleList();
-            // this.scrollView = document.getElementsByClassName('article-list')[0];
+            this.$nextTick(() => {
+                if (!this.scrollView) {
+                    this.scrollView = document.getElementsByClassName('page-content')[0];
+                }
+                this.scrollView.onscroll = _.throttle(() => {
+                    if (this.scrollView.scrollTop + this.scrollView.offsetHeight >= this.scrollView.scrollHeight) {
+                        this.selectedPage = this.selectedPage + 1;
+                        this.getArticleList();
+                    }
+                }, 500);
+            });
         },
         activated() {
             if (this.refreshBtn) {
@@ -90,5 +95,24 @@
     };
 </script>
 <style lang="less">
-    @import '@dp/bee-ui/dist/styles/theme/ecom/index.css';
+    @media only screen and (min-device-width: 640px) {
+        html {
+            font-size: 78%;
+        }
+    }
+    @media only screen and (max-device-width: 640px) {
+        html {
+            font-size: 2.666667vw;
+        }
+    }
+
+    body {
+        margin: 0;
+    }
+    .page-content {
+        position: relative;
+        padding: 0 1.5rem;
+        height: 100vh;
+        overflow: auto;
+    }
 </style>

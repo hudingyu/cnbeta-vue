@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import HomePage from '../pages/HomePage.vue';
+import MobileHome from '../pages/m-home.vue';
 import Article from '../pages/article.vue';
 // import MainPage from '../pages/cnbeta-mainpage.vue';
 
@@ -17,6 +18,13 @@ export default new Router({
             path: '/homepage',
             name: 'HomePage',
             component: HomePage,
+            meta: {
+                keepAlive: true,
+            }
+        }, {
+            path: '/home/mobile',
+            name: 'MobileHome',
+            component: MobileHome,
             meta: {
                 keepAlive: true,
             }
