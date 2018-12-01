@@ -13,16 +13,16 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/home/mobile',
+            redirect: '/homepage/m',
         }, {
-            path: '/homepage',
+            path: '/homepage/pc',
             name: 'HomePage',
             component: HomePage,
             meta: {
                 keepAlive: true,
             }
         }, {
-            path: '/home/mobile',
+            path: '/homepage/m',
             name: 'MobileHome',
             component: MobileHome,
             meta: {
