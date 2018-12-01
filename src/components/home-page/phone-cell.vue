@@ -1,5 +1,5 @@
 <template>
-    <div class="cell-container" @click="cellClicked">
+    <div class="phone-cell-container" @click="cellClicked">
         <div class="cell-icon" :style="{ background: 'url(' + thumb + ') no-repeat', 'background-size': '100% 100%' }"></div>
         <div class="cell-info">
             <div class="cell-title" v-html="info.title"></div>
@@ -26,7 +26,7 @@
     }
 </script>
 <style lang="less">
-    .cell-container {
+    .phone-cell-container {
         position: relative;
         margin: 2rem 0;
         width: 100%;

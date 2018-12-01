@@ -13,7 +13,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/homepage',
+            redirect: '/home/mobile',
         }, {
             path: '/homepage',
             name: 'HomePage',
