@@ -1,5 +1,5 @@
 <template>
-    <div class="cnbeta-article-container">
+    <div class="cnbeta-article-container" v-if="info">
         <h1 v-html="info.title"></h1>
         <div class="source" v-html="info.source"></div>
         <div class="editor">{{info.author}}</div>
@@ -107,7 +107,7 @@
         name: 'cnbeta-article',
         data() {
             return {
-                info: {},
+                info: null,
             };
         },
         methods: {
