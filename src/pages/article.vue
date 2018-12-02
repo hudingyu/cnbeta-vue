@@ -149,6 +149,7 @@
         padding:5px 10px;
         margin: auto;
         max-width: 1280px;
+        color: #333;
     }
     @media only screen and (min-device-width : 640px) and (max-device-width : 1024px) {
         html {
@@ -177,6 +178,7 @@
     .source, .editor, .time {
         text-align: right;
         font-size: 12px;
+        color: #666;
     }
     hr {
         border-bottom: 1px solid #3264c8;
@@ -190,20 +192,21 @@
         visibility: visible;
     }
     .hairline {
-        border-bottom: 1px rgb(50, 100, 200) solid;
-        -webkit-margin-before: 0.5em;
-        -webkit-margin-after: 0.5em;
+        border-bottom: 1px solid #999999;
+        -webkit-margin-before: 1em;
+        -webkit-margin-after: 1em;
         -webkit-margin-start: auto;
         -webkit-margin-end: auto;
     }
     summary, .content {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         text-align: justify;
     }
     summary {
-        padding: 2px 2px;
+        font-size: 1.5rem;
+        padding: 5px;
         background: #f0f0f0;
-        border: 0.5px solid #e0e0e0;
+        border: 0.5px solid #aaaaaa;
     }
     img, video, object, figure, iframe {
         max-width: 100%;
