@@ -167,8 +167,10 @@
     h1 {
         margin-top: 5px;
         margin-bottom: 5px;
+        padding: 0 20px;
         display: block;
-        font-size: 1.8em;
+        font-size: 2em;
+        text-align: center;
         -webkit-margin-before: 0.67em;
         -webkit-margin-after: 0.67em;
         -webkit-margin-start: 0px;
@@ -198,15 +200,18 @@
         -webkit-margin-start: auto;
         -webkit-margin-end: auto;
     }
-    summary, .content {
-        font-size: 1.6rem;
-        text-align: justify;
-    }
     summary {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        line-height: 2rem;
+        text-align: justify;
         padding: 5px;
         background: #f0f0f0;
         border: 0.5px solid #aaaaaa;
+    }
+    .content {
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+        text-align: justify;
     }
     img, video, object, figure, iframe {
         max-width: 100%;
