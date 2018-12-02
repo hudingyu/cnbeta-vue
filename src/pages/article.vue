@@ -1,10 +1,10 @@
 <template>
     <div class="cnbeta-article-container" v-if="info">
         <h1 v-html="info.title"></h1>
-        <div class="source" v-html="info.source"></div>
-        <div class="editor">{{info.author}}</div>
-        <div class="time">{{info.pubTime}}</div>
-        <div class="hairline"></div>
+        <div class="news-info">
+            <span class="time">{{info.pubTime}}</span>
+            <span class="source" v-html="info.source"></span>
+        </div>
         <summary v-html="info.summary"></summary>
         <div class="content" v-html="info.content"></div>
     </div>
@@ -142,11 +142,13 @@
     };
 </script>
 <style lang="less">
-
+    body {
+        margin: 0;
+    }
     .cnbeta-article-container {
         word-break: break-all;
-        font-family: HelveticaNeue;
-        padding:5px 10px;
+        font-family: "Lantinghei SC","Open Sans",Arial,"Hiragino Sans GB",STHeiti,"WenQuanYi Micro Hei",SimSun,sans-serif;
+        padding:0 1.5rem;
         margin: auto;
         max-width: 1280px;
         color: #333;
@@ -165,34 +167,26 @@
         }
     }
     h1 {
-        margin-top: 5px;
-        margin-bottom: 5px;
-        padding: 0 20px;
-        display: block;
+        margin-top: 1rem;
+        word-wrap: break-word;
+        word-break: break-all;
+
         font-size: 2em;
-        text-align: center;
-        -webkit-margin-before: 0.67em;
-        -webkit-margin-after: 0.67em;
-        -webkit-margin-start: 0px;
-        -webkit-margin-end: 0px;
         font-weight: bold;
+        text-align: left;
+        line-height: 1.8;
     }
-    .source, .editor, .time {
-        text-align: right;
-        font-size: 12px;
-        color: #666;
+
+    .news-info {
+        color: #99a2aa;
+        margin: 1.2rem 0 2rem 0;
+        position: relative;
+        font-size: 1.2rem;
+        &.source {
+            padding: 0 .5rem;
+        }
     }
-    hr {
-        border-bottom: 1px solid #3264c8;
-        display: block;
-        unicode-bidi: isolate;
-        -webkit-margin-before: 0.5em;
-        -webkit-margin-after: 0.5em;
-        -webkit-margin-start: auto;
-        -webkit-margin-end: auto;
-        overflow: hidden;
-        visibility: visible;
-    }
+
     .hairline {
         border-bottom: 1px solid #999999;
         -webkit-margin-before: 1em;
@@ -200,18 +194,22 @@
         -webkit-margin-start: auto;
         -webkit-margin-end: auto;
     }
-    summary {
+
+    summary, .content {
         font-size: 1.6rem;
-        line-height: 2rem;
+        line-height: 1.8;
         text-align: justify;
+        word-break: break-all;
+    }
+    summary {
         padding: 5px;
         background: #f0f0f0;
-        border: 0.5px solid #aaaaaa;
+        /*border: 0.5px solid #aaaaaa;*/
     }
     .content {
-        font-size: 1.8rem;
-        line-height: 2.4rem;
-        text-align: justify;
+        > p {
+            margin-bottom: 2rem;
+        }
     }
     img, video, object, figure, iframe {
         max-width: 100%;
@@ -223,6 +221,9 @@
     }
     a:link {
         color: rgb(50, 100, 200);
+    }
+    strong, b {
+        font-weight: 500;
     }
     p {
         display: block;
