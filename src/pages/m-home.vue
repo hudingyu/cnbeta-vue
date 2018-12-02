@@ -68,25 +68,21 @@
                 this.getArticleList();
             });
             this.getArticleList();
-            this.$nextTick(() => {
-                if (!this.scrollView) {
-                    this.scrollView = document.getElementsByClassName('page-content')[0];
-                }
-                this.scrollView.onscroll = _.throttle(() => {
-                    if (this.scrollView.scrollTop + this.scrollView.offsetHeight >= this.scrollView.scrollHeight) {
-                        this.selectedPage = this.selectedPage + 1;
-                        this.getArticleList();
-                    }
-                }, 500);
-            });
         },
         activated() {
             if (this.refreshBtn) {
                 this.refreshBtn.$appear();
             }
+            window.onscroll = _.throttle(() => {
+                if (document.documentElement.scrollTop + window.screen.height >= document.documentElement.scrollHeight) {
+                    this.selectedPage = this.selectedPage + 1;
+                    this.getArticleList();
+                }
+            }, 500);
         },
         deactivated() {
             this.refreshBtn.$disappear();
+            window.onscroll = null;
         },
         beforeDestroy() {
             this.refreshBtn.$remove();
@@ -112,7 +108,5 @@
     .page-content {
         position: relative;
         padding: 0 1.5rem;
-        height: 100vh;
-        overflow: auto;
     }
 </style>
