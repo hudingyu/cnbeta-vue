@@ -73,8 +73,9 @@
             if (this.refreshBtn) {
                 this.refreshBtn.$appear();
             }
-            window.onscroll = _.throttle(() => {
-                if (document.documentElement.scrollTop + window.screen.height >= document.documentElement.scrollHeight) {
+            document.body.onscroll = _.throttle(() => {
+                const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+                if (scrollTop + document.body.offsetHeight >= document.body.scrollHeight) {
                     this.selectedPage = this.selectedPage + 1;
                     this.getArticleList();
                 }
@@ -82,7 +83,7 @@
         },
         deactivated() {
             this.refreshBtn.$disappear();
-            window.onscroll = null;
+            document.body.onscroll = null;
         },
         beforeDestroy() {
             this.refreshBtn.$remove();
@@ -104,6 +105,8 @@
 
     body {
         margin: 0;
+        height: 100vh;
+        overflow: auto;
     }
     .page-content {
         position: relative;
