@@ -9,6 +9,9 @@ import VueJsonp from 'vue-jsonp'
 Vue.config.productionTip = false;
 Vue.use(VueJsonp);
 
+console.log(Object.getOwnPropertyNames(Vue));
+console.log(Vue.set.toString())
+
 Vue.prototype.$showRefresh = Refresh;
 /* eslint-disable no-new */
 new Vue({

@@ -65,27 +65,8 @@
             },
         },
         mounted() {
-            this.refreshBtn = this.$showRefresh();
-            Bus.$on('onRefresh', () => {
-                console.log(document.documentElement.scrollTop);
-                document.documentElement.scrollTop = 0;
-                this.selectedPage = 1;
-                this.getArticleList();
-            });
             this.getArticleList();
             // this.scrollView = document.getElementsByClassName('article-list')[0];
-        },
-        activated() {
-            if (this.refreshBtn) {
-                this.refreshBtn.$appear();
-            }
-        },
-        deactivated() {
-            this.refreshBtn.$disappear();
-        },
-        beforeDestroy() {
-            this.refreshBtn.$remove();
-            Bus.$off('onRefresh');
         },
     };
 </script>
