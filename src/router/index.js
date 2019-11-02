@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import HomePage from '../pages/HomePage.vue';
+// import HomePage from '../pages/HomePage.vue';
 import MobileHome from '../pages/m-home.vue';
 import Article from '../pages/article.vue';
 // import MainPage from '../pages/cnbeta-mainpage.vue';
@@ -14,13 +14,6 @@ export default new Router({
         {
             path: '/',
             redirect: '/homepage/m',
-        }, {
-            path: '/homepage/pc',
-            name: 'HomePage',
-            component: HomePage,
-            meta: {
-                keepAlive: true,
-            }
         }, {
             path: '/homepage/m',
             name: 'MobileHome',
