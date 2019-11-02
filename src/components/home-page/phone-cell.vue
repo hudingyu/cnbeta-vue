@@ -3,7 +3,7 @@
         <div class="cell-icon" :style="{ background: 'url(' + thumb + ') no-repeat', 'background-size': '100% 100%' }"></div>
         <div class="cell-info">
             <div class="cell-title" v-html="info.title"></div>
-            <div class="cell-date" v-html="info.pubTime"></div>
+            <div class="cell-date" v-html="info.inputtime"></div>
         </div>
     </div>
 </template>
@@ -15,7 +15,8 @@
         },
         data() {
             return {
-                thumb: `http://10.4.226.82:8081/data${this.info.thumb}`,
+                thumb: this.info.thumb,
+                // thumb: `http://10.4.226.82:8081/data${this.info.thumb}`,
             };
         },
         methods: {

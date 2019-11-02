@@ -2,7 +2,7 @@
     <div class="cnbeta-article-container" v-if="info">
         <h1 v-html="info.title"></h1>
         <div class="news-info">
-            <span class="time">{{info.pubTime}}</span>
+            <span class="time">{{info.inputtime}}</span>
             <span class="source" v-html="info.source"></span>
         </div>
         <summary v-html="info.summary"></summary>
@@ -116,8 +116,8 @@
                 Ajax.get({
                     url: `article/${sid}`,
                     success: (res) => {
-                        if (res.code.toString() === '200') {
-                            this.info = res.result[0];
+                        if (res.status_code.toString() === '200') {
+                            this.info = res.result;
                             this.$nextTick(handleVideos);
                         } else {
                             this.$toast({

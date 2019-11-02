@@ -40,7 +40,7 @@
                     },
                     success: (res) => {
                         this.refreshBtn.$stopLoading();
-                        if (res.code.toString() === '200') {
+                        if (res.status_code.toString() === '200') {
                             this.articleList = res.result.list;
                             this.paginationInfo = res.result.pagination;
                         } else {

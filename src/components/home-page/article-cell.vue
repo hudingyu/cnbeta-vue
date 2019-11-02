@@ -5,7 +5,7 @@
         <div class="cell-info">
             <div class="cell-title" v-html="info.title"></div>
             <div class="cell-subtitle" v-html="info.summary"></div>
-            <div class="cell-date" v-html="info.pubTime"></div>
+            <div class="cell-date" v-html="info.inputtime"></div>
         </div>
     </div>
 
@@ -17,7 +17,8 @@
         },
         data() {
             return {
-                thumb: `http://10.4.226.82:8081/data${this.info.thumb}`,
+                thumb: this.info.thumb,
+                // thumb: `http://10.4.226.82:8081/data${this.info.thumb}`,
             };
         },
         methods: {

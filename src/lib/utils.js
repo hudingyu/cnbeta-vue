@@ -25,8 +25,8 @@ function getAjaxUrl(options) {
     if (/^https?:\/\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i.test(options.url)) {
         return options.url;
     }
-    return `http://10.4.226.82:8081/api/${options.url}`;
-    // return `http://localhost:8081/api/${options.url}`;
+    // return `http://10.4.226.82:8081/api/${options.url}`;
+    return `http://cnbeta.turling.me/api/${options.url}`;
 }
 
 function getUrlParam(paramName) {

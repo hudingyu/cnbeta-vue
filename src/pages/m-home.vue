@@ -29,15 +29,17 @@
         },
         methods: {
             getArticleList(pn) {
+                const lastArticle = this.articleList[this.articleList.length - 1];
+                console.log(JSON.stringify(lastArticle));
                 Ajax.get({
                     url: 'timeline',
                     params: {
-                        page: pn || this.selectedPage,
+                        last_sid: this.articleList.length ? lastArticle.sid : 0,
                     },
                     success: (res) => {
                         this.refreshBtn.$stopLoading();
-                        if (res.code.toString() === '200') {
-                            this.articleList = [...this.articleList, ...res.result.list];
+                        if (res.status_code.toString() === '200') {
+                            this.articleList = [...this.articleList, ...res.result];
                             this.paginationInfo = res.result.pagination;
                         } else {
                             this.$toast({
