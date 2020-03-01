@@ -7,6 +7,11 @@
         </div>
         <summary v-html="info.summary"></summary>
         <div class="content" v-html="info.content"></div>
+        <div class="orign">
+            <div>
+                <a :href="info.url_show" target="_blank">查看原文</a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -29,6 +34,18 @@
                     var div = createVideoPlaceholder();
                     embed.parentNode.replaceChild(div, embed)
                 }
+            } else if (src.indexOf('tudou.com') > -1) {
+                var m = src.match(/\/v\/(\S*)\/&/i);  //  \S* 匹配多个任意字符
+                if (m) {
+                    var id = m[1];
+                    var iframe = document.createElement('iframe');
+                    var m3u8 = 'http://www.tudou.com/programs/view/html5embed.action?code=' + id;
+                    iframe.src = m3u8;
+                    embed.parentNode.replaceChild(iframe, embed)
+                } else {
+                    var div = createVideoPlaceholder();
+                    embed.parentNode.replaceChild(div, embed)
+                }
             } else if (src.indexOf('qq.com') > -1) {
                 var m = src.match(/vid=(\S*)&/i);
                 if (m) {
@@ -44,7 +61,7 @@
             } else if (src.indexOf('qiyi.com') > -1) {
                 var m = src.match(/com\/(\S*?)\/0/i);
                 var n = src.match(/tvId=(\S*?)-/i);
-                if (m) {
+                if (m & n) {
                     var vid = m[1];
                     var tvid = n[1];
                     var iframe = document.createElement('iframe');
@@ -59,20 +76,18 @@
                 var flashvars = embed.getAttribute("flashvars");
                 var m = flashvars.match(/uu=(\S*?)&/i);
                 var n = flashvars.match(/vu=(\S*?)&/i);
-                if (1) {
+                if (m && n) {
                     var uu = m[1];
                     var vu = n[1];
                     var iframe = document.createElement('iframe');
                     var m3u8 = 'http://yuntv.letv.com/bcloud.html?uu=' + uu + '&vu=' + vu + '&auto_play=0&width=320&height=240&lang=zh_CN';
+                    //var m3u8 = 'http://yuntv.letv.com/bcloud.html?uu=8c224024a0&vu=101dde6582&auto_play=0&width=320&height=240&lang=zh_CN';
                     iframe.src = m3u8;
                     embed.parentNode.replaceChild(iframe, embed)
                 }
-            } else {
-                var div = createVideoPlaceholder();
-                embed.parentNode.replaceChild(div, embed)
             }
         }
-
+        
         var iframes = document.getElementsByTagName('iframe');
         for (var i = iframes.length - 1; i >= 0; i--) {
             var embed = iframes[i];
@@ -80,29 +95,60 @@
             if (src) {
                 if (src.indexOf('qq.com') > -1) {
                     var m = src.match(/vid=(\S*?)&/i)
-                    var id = m[1];
-                    var m3u8 = 'https://v.qq.com/iframe/player.html?vid=' + id + '&tiny=0&auto=0';
-                    src = m3u8;
+                    if (m) {
+                        var id = m[1];
+                        var m3u8 = 'https://v.qq.com/iframe/player.html?vid=' + id + '&tiny=0&auto=0';
+                        src = m3u8;
+                    }
+                }
+                if (src.indexOf('player.youku.com') > -1) {
+                    var m = src.match(/embed\/((\S*?)\==)/i);
+                    
+                    if (m) {
+                        var id = m[1];
+                        src = 'http://player.youku.com/embed/' + id;
+                    }
+                }
+                if(src.indexOf('http') == -1 && src.indexOf('//') >= 0) {
+                    var index = src.indexOf('//');
+                    src = 'https:' + src.substr(index);
                 }
                 var iframe = document.createElement('iframe');
                 iframe.src = src;
-                iframe.frameborder = 0;
-                embed.parentNode.replaceChild(iframe, embed)
+                iframe.width = document.documentElement.clientWidth;
+                iframe.height = document.documentElement.clientWidth/2;
+                embed.parentNode.replaceChild(iframe, embed);
             } else {
                 var div = createVideoPlaceholder();
                 embed.parentNode.replaceChild(div, embed)
             }
         }
-
+        
+        var videos = document.getElementsByTagName('video');
+        for (var i = videos.length - 1; i >= 0; i--) {
+            var video = videos[i];
+            var src = video.src;
+            if(src.indexOf('http') == -1 && src.indexOf('//') >= 0) {
+                var index = src.indexOf('//');
+                src = 'https:' + src.substr(index);
+            }
+            video.src = src;
+            video.setAttribute('webkit-playsinline', true);
+            video.setAttribute('playsinline', true);
+            video.width = document.documentElement.clientWidth;
+            video.height = document.documentElement.clientWidth/2;
+        }
+        
         function createVideoPlaceholder() {
             var div = document.createElement('div');
             div.class = 'videoPlaceholder';
             var forbidden = document.createElement('div');
             forbidden.class = 'videoForbidden';
             div.appendChild(forbidden);
-            return div;
+            return div
         }
     }
+
     export default {
         name: 'cnbeta-article',
         data() {
@@ -118,6 +164,7 @@
                     success: (res) => {
                         if (res.status_code.toString() === '200') {
                             this.info = res.result;
+                            document.title = this.info.title;
                             this.$nextTick(handleVideos);
                         } else {
                             this.$toast({
@@ -211,6 +258,11 @@
             margin-bottom: 2rem;
         }
     }
+    .orign {
+        text-align: center;
+        font-size: 12px;
+        padding-bottom: 40px;
+    }
     img, video, object, figure, iframe {
         max-width: 100%;
         display: block;
@@ -223,7 +275,7 @@
         color: rgb(50, 100, 200);
     }
     strong, b {
-        font-weight: 500;
+        font-weight: bold;
     }
     p {
         display: block;

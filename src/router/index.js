@@ -13,9 +13,6 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/homepage/m',
-        }, {
-            path: '/homepage/m',
             name: 'MobileHome',
             component: MobileHome,
             meta: {

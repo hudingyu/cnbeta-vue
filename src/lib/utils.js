@@ -26,7 +26,7 @@ function getAjaxUrl(options) {
         return options.url;
     }
     // return `http://10.4.226.82:8081/api/${options.url}`;
-    return `http://cnbeta.turling.me/api/${options.url}`;
+    return `http://api.turling.me/api/${options.url}`;
 }
 
 function getUrlParam(paramName) {
