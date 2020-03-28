@@ -12,7 +12,8 @@ export default (options) => {
         data: options || {},
     });
     refreshComponent.visible = true;
-    document.body.appendChild(refreshComponent.$el);
+    const app = document.getElementById('app');
+    app.appendChild(refreshComponent.$el);
     refreshComponent.$stopLoading = () => {
         refreshComponent.loading = false;
     };

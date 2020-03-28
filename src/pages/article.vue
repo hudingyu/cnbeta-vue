@@ -196,9 +196,9 @@
         word-break: break-all;
         font-family: "Lantinghei SC","Open Sans",Arial,"Hiragino Sans GB",STHeiti,"WenQuanYi Micro Hei",SimSun,sans-serif;
         padding:0 1.5rem;
-        margin: auto;
-        max-width: 1280px;
         color: #333;
+        border: 1px solid transparent;
+        background: #fff;
     }
     @media only screen and (min-device-width : 640px) and (max-device-width : 1024px) {
         html {

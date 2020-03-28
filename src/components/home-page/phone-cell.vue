@@ -3,6 +3,7 @@
         <div class="cell-icon" :style="{ background: 'url(' + thumb + ') no-repeat', 'background-size': '100% 100%' }"></div>
         <div class="cell-info">
             <div class="cell-title" v-html="info.title"></div>
+            <div class="cell-summary" v-html="info.summary"></div>
             <div class="cell-date" v-html="info.inputtime"></div>
         </div>
     </div>
@@ -66,10 +67,26 @@
                 word-wrap: break-word;
                 word-break: break-all;
             }
-
+            .cell-summary {
+                position: relative;
+                word-wrap: break-word;
+                word-break: break-all;
+                margin-top: 10px;
+                color: #99a2aa;
+                width: 100%;
+                font-size: 1.4rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                /* autoprefixer: off */
+                -webkit-box-orient: vertical;
+                /* autoprefixer: on */
+                word-break: break-all; 
+            }
             .cell-date {
                 position: absolute;
-                bottom: .12rem;
+                bottom: .32rem;
                 color: #99a2aa;
                 width: 100%;
                 font-size: 1.2rem;

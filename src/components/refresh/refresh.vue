@@ -26,7 +26,7 @@
 </script>
 <style lang="less">
     .refresh-btn {
-        position: fixed;
+        position: absolute;
         bottom: 5%;
         right: 5%;
         width: 30px;

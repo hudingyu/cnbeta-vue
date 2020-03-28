@@ -3,10 +3,12 @@
         <div class="article-list">
             <phone-cell v-for="item in articleList" :info="item" :key="item.sid"></phone-cell>
         </div>
+        <infinite-loading :on-infinite="onInfinite" ref="infiniteLoading" spinner="bubbles"></infinite-loading>
     </div>
 </template>
 <script>
     import * as _ from 'underscore';
+    import InfiniteLoading from 'vue-infinite-loading';
     import PhoneCell from '../components/home-page/phone-cell.vue';
     import Bus from '../lib/bus';
     import { Ajax } from '@/lib/utils';
@@ -25,37 +27,56 @@
             };
         },
         components: {
+            InfiniteLoading,
             PhoneCell,
         },
         methods: {
+            onInfinite() {
+                this.selectedPage = this.selectedPage + 1;
+                this.getArticleList().then(
+                    () => {
+                        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
+                    }
+                ).catch(
+                    err => {
+                        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded');
+                    }
+                )
+            },
             getArticleList(pn) {
                 const lastArticle = this.articleList[this.articleList.length - 1];
-                console.log(JSON.stringify(lastArticle));
-                Ajax.get({
-                    url: 'timeline',
-                    params: {
-                        last_sid: this.articleList.length ? lastArticle.sid : 0,
-                    },
-                    success: (res) => {
-                        this.refreshBtn.$stopLoading();
-                        if (res.status_code.toString() === '200') {
-                            this.articleList = [...this.articleList, ...res.result];
-                            this.paginationInfo = res.result.pagination;
-                        } else {
-                            this.$toast({
-                                text: '请求出错',
-                                duration: 2000,
-                            });
-                        }
-                    },
-                    error: () => {
-                        this.refreshBtn.$stopLoading();
-                        this.$toast({
-                            text: '网络错误！',
-                            duration: 2000,
+                // console.log(JSON.stringify(lastArticle));
+                return new Promise(
+                    (resolve, reject) => {
+                        Ajax.get({
+                            url: 'timeline',
+                            params: {
+                                last_sid: this.articleList.length ? lastArticle.sid : 0,
+                            },
+                            success: (res) => {
+                                this.refreshBtn.$stopLoading();
+                                if (res.status_code.toString() === '200') {
+                                    this.articleList = [...this.articleList, ...res.result];
+                                    this.paginationInfo = res.result.pagination;
+                                } else {
+                                    this.$toast({
+                                        text: '请求出错',
+                                        duration: 2000,
+                                    });
+                                }
+                                resolve()
+                            },
+                            error: () => {
+                                this.refreshBtn.$stopLoading();
+                                this.$toast({
+                                    text: '网络错误！',
+                                    duration: 2000,
+                                });
+                                reject()
+                            }
                         });
                     }
-                });
+                )
             },
         },
         mounted() {
@@ -69,19 +90,19 @@
                 this.articleList = [];
                 this.getArticleList();
             });
-            this.getArticleList();
+            // this.getArticleList();
         },
         activated() {
             if (this.refreshBtn) {
                 this.refreshBtn.$appear();
             }
-            document.body.onscroll = _.throttle(() => {
-                const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-                if (scrollTop + document.body.offsetHeight >= document.body.scrollHeight) {
-                    this.selectedPage = this.selectedPage + 1;
-                    this.getArticleList();
-                }
-            }, 500);
+            // document.body.onscroll = _.throttle(() => {
+            //     const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+            //     if (scrollTop + document.body.offsetHeight >= document.body.scrollHeight) {
+            //         this.selectedPage = this.selectedPage + 1;
+            //         this.getArticleList();
+            //     }
+            // }, 500);
         },
         deactivated() {
             this.refreshBtn.$disappear();
@@ -113,5 +134,10 @@
     .page-content {
         position: relative;
         padding: 0 1.5rem;
+        height: 100vh;
+        overflow: auto;
+        .article-list {
+            border: 1px solid transparent;
+        }
     }
 </style>
