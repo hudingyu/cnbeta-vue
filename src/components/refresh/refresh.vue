@@ -56,6 +56,13 @@
             }
         }
     }
+    @media (prefers-color-scheme: dark) {
+        .refresh-btn {
+            background: #666;
+            border: 1px solid #666;
+            box-shadow: 0px 0px 10px #777;
+        }
+    }
     @-webkit-keyframes rotate {
         from {
             -webkit-transform: rotate(0deg);
