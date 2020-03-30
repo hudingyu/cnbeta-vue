@@ -1,7 +1,7 @@
 <template>
     <div class="page-content">
         <div class="article-list">
-            <phone-cell v-for="item in articleList" :info="item" :key="item.sid"></phone-cell>
+            <phone-cell v-for="item in articleList" :info="item" :key="item.sid" :showSummary="!isMobile"></phone-cell>
         </div>
         <infinite-loading :on-infinite="onInfinite" ref="infiniteLoading" spinner="bubbles"></infinite-loading>
     </div>
@@ -11,7 +11,7 @@
     import InfiniteLoading from 'vue-infinite-loading';
     import PhoneCell from '../components/home-page/phone-cell.vue';
     import Bus from '../lib/bus';
-    import { Ajax } from '@/lib/utils';
+    import { Ajax, getBrowserVersion } from '@/lib/utils';
     export default {
         name: 'Home',
         data() {
@@ -24,6 +24,7 @@
                 },
                 selectedPage: 1,
                 refreshBtn: null,
+                isMobile: false
             };
         },
         components: {
@@ -54,7 +55,7 @@
                                 last_sid: this.articleList.length ? lastArticle.sid : 0,
                             },
                             success: (res) => {
-                                this.refreshBtn.$stopLoading();
+                                this.refreshBtn && this.refreshBtn.$stopLoading();
                                 if (res.status_code.toString() === '200') {
                                     this.articleList = [...this.articleList, ...res.result];
                                     this.paginationInfo = res.result.pagination;
@@ -67,7 +68,7 @@
                                 resolve()
                             },
                             error: () => {
-                                this.refreshBtn.$stopLoading();
+                                this.refreshBtn && this.refreshBtn.$stopLoading();
                                 this.$toast({
                                     text: '网络错误！',
                                     duration: 2000,
@@ -80,16 +81,28 @@
             },
         },
         mounted() {
+            const browser = {
+                versions: getBrowserVersion(),
+                language: (navigator.browserLanguage || navigator.language).toLowerCase(),
+            };
+
+            // 移动端隐藏下载按钮
+            if (browser.versions.mobile || browser.versions.ios || browser.versions.android ||
+                browser.versions.iPhone || browser.versions.iPad) {
+                this.isMobile = true;
+            }
 //            const fontSize = document.body.clientWidth >= 640 ? '75%' : `${8/3}vw`;
 //            document.querySelector('html').setAttribute('style', `font-size: ${fontSize}`);
-
-            this.refreshBtn = this.$showRefresh();
-            Bus.$on('onRefresh', () => {
-                document.documentElement.scrollTop = 0;
-                this.selectedPage = 1;
-                this.articleList = [];
-                this.getArticleList();
-            });
+            if (this.isMobile) {
+                this.refreshBtn = this.$showRefresh();
+                Bus.$on('onRefresh', () => {
+                    document.documentElement.scrollTop = 0;
+                    this.selectedPage = 1;
+                    this.articleList = [];
+                    this.getArticleList();
+                });
+            }
+            
             // this.getArticleList();
         },
         activated() {
@@ -105,12 +118,16 @@
             // }, 500);
         },
         deactivated() {
-            this.refreshBtn.$disappear();
-            document.body.onscroll = null;
+            if (this.refreshBtn) {
+                this.refreshBtn.$disappear();
+            }
+            // document.body.onscroll = null;
         },
         beforeDestroy() {
-            this.refreshBtn.$remove();
-            Bus.$off('onRefresh');
+            if (this.refreshBtn) {
+                this.refreshBtn.$remove();
+                Bus.$off('onRefresh');
+            }
         },
     };
 </script>
@@ -134,10 +151,12 @@
     .page-content {
         position: relative;
         padding: 0 1.5rem;
-        height: 100vh;
-        overflow: auto;
+        // background: #fff;
+        // height: 100vh;
+        // overflow: auto;
         .article-list {
             border: 1px solid transparent;
         }
     }
+    
 </style>

@@ -200,6 +200,11 @@
         border: 1px solid transparent;
         background: #fff;
     }
+    @media (prefers-color-scheme: dark) {
+        .cnbeta-article-container {
+            background: #333;
+        }
+    }
     @media only screen and (min-device-width : 640px) and (max-device-width : 1024px) {
         html {
             font-size: 78%;
@@ -253,6 +258,7 @@
         background: #f0f0f0;
         /*border: 0.5px solid #aaaaaa;*/
     }
+    
     .content {
         > p {
             margin-bottom: 2rem;
@@ -262,6 +268,15 @@
         text-align: center;
         font-size: 12px;
         padding-bottom: 40px;
+    }
+    @media (prefers-color-scheme: dark) {
+        summary {
+            background: #555;
+            color: #ccc;
+        }
+        h1, .news-info, .content, .orign {
+            color: #ccc;
+        }
     }
     img, video, object, figure, iframe {
         max-width: 100%;

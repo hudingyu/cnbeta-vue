@@ -3,7 +3,7 @@
         <div class="cell-icon" :style="{ background: 'url(' + thumb + ') no-repeat', 'background-size': '100% 100%' }"></div>
         <div class="cell-info">
             <div class="cell-title" v-html="info.title"></div>
-            <div class="cell-summary" v-html="info.summary"></div>
+            <div v-if="showSummary" class="cell-summary" v-html="info.summary"></div>
             <div class="cell-date" v-html="info.inputtime"></div>
         </div>
     </div>
@@ -13,6 +13,7 @@
         name: 'PhoneCell',
         props: {
             info: Object,
+            showSummary: Boolean,
         },
         data() {
             return {
@@ -66,6 +67,11 @@
                 position: relative;
                 word-wrap: break-word;
                 word-break: break-all;
+            }
+            @media (prefers-color-scheme: dark) {
+                .cell-title {
+                    color: #ccc;
+                }
             }
             .cell-summary {
                 position: relative;
