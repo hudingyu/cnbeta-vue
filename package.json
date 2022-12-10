@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "underscore": "^1.9.1",
     "vue": "^2.5.2",
     "vue-infinite-loading": "^2.4.5",
